@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\StockReportController;
 
 
@@ -21,8 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/feedback', function () {
+    return view('feedBack');
+})->middleware(['auth', 'verified'])->name('feedBack');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::post('/feedback', [FeedbackController::class, 'store']);
 
 Route::resource('products', ProductController::class);
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -33,9 +36,4 @@ Route::get('/stock-reports', [StockReportController::class, 'index'])->name('sto
 
 
 
-
-
-
-
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
